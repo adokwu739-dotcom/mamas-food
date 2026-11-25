@@ -7,6 +7,7 @@ import {
 import { categories, menuItems } from "./data/menu.js";
 import MenuPage from "./MenuPage.jsx";
 import CateringPage from "./CateringPage.jsx";
+import CheckoutPage from "./CheckoutPage.jsx";
 import { CartProvider, useCart } from "./context/CartContext.jsx";
 
 const formatNaira = (amount) => new Intl.NumberFormat("en-NG", {
@@ -122,7 +123,7 @@ function HomePage() {
       <footer className="site-footer"><a className="brand footer-brand" href="#home"><span className="brand-mark"><ChefHat size={22} /></span><span><strong>MAMA'S</strong><small>FOOD & KITCHEN</small></span></a><p>Good food, made with love.</p><div className="footer-meta"><span>© {new Date().getFullYear()} Mama's Food</span><span>Made for sharing.</span></div></footer>
 
       {cartOpen && <div className="drawer-backdrop" onClick={() => setCartOpen(false)}><aside className="cart-drawer" onClick={(e) => e.stopPropagation()}><div className="drawer-heading"><div><span className="eyebrow">YOUR SELECTION</span><h2>Your order</h2></div><button className="icon-button" onClick={() => setCartOpen(false)} aria-label="Close cart"><X /></button></div>
-        {cartItems.length === 0 ? <div className="cart-empty"><ShoppingBag size={35} /><h3>Your order is empty</h3><p>Add something delicious from our menu.</p><button className="primary-button" onClick={() => setCartOpen(false)}>Explore menu</button></div> : <><div className="cart-lines">{cartItems.map((item) => <div className="cart-line" key={item.id}><img src={item.image} alt="" /><div className="cart-line-info"><strong>{item.name}</strong><small>{formatNaira(item.price)}</small><div className="quantity-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14} /></button><span>{cart[item.id]}</span><button onClick={() => changeQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14} /></button></div></div><b>{formatNaira(item.price * cart[item.id])}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>{formatNaira(cartTotal)}</strong></div><p className="delivery-note">Delivery fee, if applicable, will be confirmed when you order.</p><button className="primary-button checkout-button" onClick={sendOrder}>Continue on WhatsApp <ArrowRight size={17} /></button></>}</aside></div>}
+        {cartItems.length === 0 ? <div className="cart-empty"><ShoppingBag size={35} /><h3>Your order is empty</h3><p>Add something delicious from our menu.</p><button className="primary-button" onClick={() => setCartOpen(false)}>Explore menu</button></div> : <><div className="cart-lines">{cartItems.map((item) => <div className="cart-line" key={item.id}><img src={item.image} alt="" /><div className="cart-line-info"><strong>{item.name}</strong><small>{formatNaira(item.price)}</small><div className="quantity-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14} /></button><span>{cart[item.id]}</span><button onClick={() => changeQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14} /></button></div></div><b>{formatNaira(item.price * cart[item.id])}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>{formatNaira(cartTotal)}</strong></div><p className="delivery-note">Delivery fee, if applicable, will be confirmed when you order.</p><a className="primary-button checkout-button" href="/checkout">Continue to checkout <ArrowRight size={17} /></a></>}</aside></div>}
     </div>
   );
 }
@@ -132,6 +133,7 @@ function AppContent() {
   const path = window.location.pathname.replace(/\/$/, "");
   if (path === "/menu") return <MenuPage />;
   if (path === "/catering") return <CateringPage />;
+  if (path === "/checkout") return <CheckoutPage />;
   return <HomePage />;
 }
 
