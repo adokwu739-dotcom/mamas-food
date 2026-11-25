@@ -116,7 +116,7 @@ function HomePage() {
 
         <section className="contact-band section-pad" id="contact">
           <div><span className="eyebrow">WE'D LOVE TO HEAR FROM YOU</span><h2>Ready for something <em>delicious?</em></h2><p>Reach out to place an order or ask us a question.</p></div>
-          <a className="light-button" href="https://wa.me/" target="_blank" rel="noreferrer">Chat with us on WhatsApp <ArrowRight size={17} /></a>
+          <a className="light-button" href="/catering">Plan an event with us <ArrowRight size={17} /></a>
         </section>
       </main>
 
