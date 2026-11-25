@@ -1,10 +1,28 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { menuItems } from "../data/menu.js";
 
 const CartContext = createContext(null);
+const STORAGE_KEY = "mamas-food-cart";
+
+function readSavedCart() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch {
+    return {};
+  }
+}
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState(readSavedCart);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    } catch {
+      // The cart still works for this browser session if storage is unavailable.
+    }
+  }, [cart]);
 
   function changeQuantity(id, amount) {
     setCart((current) => {
