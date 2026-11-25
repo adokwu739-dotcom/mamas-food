@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowLeft, Plus, Search, ShoppingBag, ChefHat, X, Minus, ArrowRight } from "lucide-react";
+import { ArrowLeft, Plus, Search, ShoppingBag, ChefHat, X, Minus, ArrowRight, Menu as MenuIcon } from "lucide-react";
 import { categories, menuItems } from "./data/menu.js";
 import { useCart } from "./context/CartContext.jsx";
 
@@ -11,6 +11,7 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { cart, cartItems, cartCount, cartTotal, changeQuantity } = useCart();
 
   const visibleItems = useMemo(() => menuItems.filter((item) => {
@@ -23,8 +24,8 @@ export default function MenuPage() {
     <div className="announcement">GOOD FOOD. GOOD MOOD. MADE WITH LOVE.</div>
     <header className="site-header">
       <a className="brand" href="/" aria-label="Mama's Food home"><span className="brand-mark"><ChefHat size={22}/></span><span><strong>MAMA'S</strong><small>FOOD & KITCHEN</small></span></a>
-      <nav className="main-nav menu-page-nav"><a href="/">Home</a><a className="current" href="/menu">Our menu</a><a href="/catering">Catering</a><a href="/#about">Our story</a><a href="/#contact">Contact</a></nav>
-      <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Open cart, ${cartCount} items`}><ShoppingBag size={18}/><span>My order</span><b>{cartCount}</b></button>
+      <nav className={mobileMenuOpen ? "main-nav menu-page-nav open" : "main-nav menu-page-nav"}><a href="/">Home</a><a className="current" href="/menu">Our menu</a><a href="/catering">Catering</a><a href="/#about">Our story</a><a href="/#contact">Contact</a></nav>
+      <div className="header-actions"><button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Open cart, ${cartCount} items`}><ShoppingBag size={18}/><span>My order</span><b>{cartCount}</b></button><button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">{mobileMenuOpen ? <X/> : <MenuIcon/>}</button></div>
     </header>
     <main>
       <section className="menu-page-hero"><a href="/" className="menu-back"><ArrowLeft size={15}/> Back to home</a><span className="eyebrow">MADE FRESH, SERVED WITH LOVE</span><h1>Our <em>menu.</em></h1><p>Explore the flavours, find your favourites and add something delicious to your order.</p></section>
