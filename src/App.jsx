@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   ArrowRight, ShoppingBag, Search, Menu as MenuIcon, X, Plus, Minus,
-  Instagram, MapPin, Clock, Phone, Heart, ChefHat, Truck, ShieldCheck
+  Heart, ChefHat, Truck, ShieldCheck
 } from "lucide-react";
 
 import { categories, menuItems } from "./data/menu.js";
@@ -27,18 +27,6 @@ function HomePage() {
   }), [activeCategory, search]);
 
   const { cart, cartItems, cartCount, cartTotal, changeQuantity } = useCart();
-
-  function sendOrder() {
-    // Replace this with the vendor's WhatsApp number in international format, without + or spaces.
-    const whatsappNumber = "";
-    if (!whatsappNumber) {
-      alert("The vendor's WhatsApp number has not been added yet. Please contact the site owner to configure it.");
-      return;
-    }
-    const lines = cartItems.map((item) => `• ${item.name} x${cart[item.id]} — ${formatNaira(item.price * cart[item.id])}`);
-    const message = `Hello Mama's Food! I'd like to place an order:\n\n${lines.join("\n")}\n\nTotal: ${formatNaira(cartTotal)}\n\nPlease confirm availability and delivery details.`;
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
-  }
 
   return (
     <div className="site-shell">
