@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ChefHat, CalendarDays, MapPin, Users, Utensils } from "lucide-react";
+import { ArrowRight, ChefHat, CalendarDays, MapPin, Users, Utensils, Menu as MenuIcon, X } from "lucide-react";
 
 const initialForm = {
   name: "", email: "", phone: "", eventType: "", guests: "", eventDate: "",
@@ -10,6 +10,7 @@ export default function CateringPage() {
   const [form, setForm] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function update(event) {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -29,8 +30,8 @@ export default function CateringPage() {
     <div className="announcement">GOOD FOOD. GOOD MOOD. MADE WITH LOVE.</div>
     <header className="site-header">
       <a className="brand" href="/" aria-label="Mama's Food home"><span className="brand-mark"><ChefHat size={22}/></span><span><strong>MAMA'S</strong><small>FOOD & KITCHEN</small></span></a>
-      <nav className="main-nav menu-page-nav"><a href="/">Home</a><a href="/menu">Our menu</a><a className="current" href="/catering">Catering</a><a href="/#about">Our story</a><a href="/#contact">Contact</a></nav>
-      <a className="cart-button" href="/menu">Explore menu <ArrowRight size={16}/></a>
+      <nav className={mobileMenuOpen ? "main-nav menu-page-nav open" : "main-nav menu-page-nav"}><a href="/">Home</a><a href="/menu">Our menu</a><a className="current" href="/catering">Catering</a><a href="/#about">Our story</a><a href="/#contact">Contact</a></nav>
+      <div className="header-actions"><a className="cart-button" href="/menu">Explore menu <ArrowRight size={16}/></a><button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">{mobileMenuOpen ? <X/> : <MenuIcon/>}</button></div>
     </header>
     <main>
       <section className="catering-hero">
