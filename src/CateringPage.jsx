@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ArrowRight, ChefHat, CalendarDays, MapPin, Users, Utensils, MessageCircle } from "lucide-react";
+import { ArrowRight, ChefHat, CalendarDays, MapPin, Users, Utensils } from "lucide-react";
 
 const initialForm = {
   name: "", email: "", phone: "", eventType: "", guests: "", eventDate: "",
-  location: "", budget: "", dishes: "", dietary: "", notes: ""
+  location: "", budget: "", dishes: "", dietary: "", notes: "", service: "Delivery"
 };
 
 export default function CateringPage() {
