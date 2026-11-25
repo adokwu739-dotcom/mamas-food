@@ -6,6 +6,8 @@ import {
 
 import { categories, menuItems } from "./data/menu.js";
 import MenuPage from "./MenuPage.jsx";
+import CateringPage from "./CateringPage.jsx";
+import { CartProvider, useCart } from "./context/CartContext.jsx";
 
 const formatNaira = (amount) => new Intl.NumberFormat("en-NG", {
   style: "currency", currency: "NGN", maximumFractionDigits: 0
@@ -14,7 +16,6 @@ const formatNaira = (amount) => new Intl.NumberFormat("en-NG", {
 function HomePage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
-  const [cart, setCart] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -24,17 +25,7 @@ function HomePage() {
     return categoryMatch && searchMatch;
   }), [activeCategory, search]);
 
-  const cartItems = menuItems.filter((item) => cart[item.id] > 0);
-  const cartCount = cartItems.reduce((sum, item) => sum + cart[item.id], 0);
-  const cartTotal = cartItems.reduce((sum, item) => sum + item.price * cart[item.id], 0);
-
-  function changeQuantity(id, amount) {
-    setCart((current) => {
-      const next = { ...current, [id]: Math.max(0, (current[id] || 0) + amount) };
-      if (next[id] === 0) delete next[id];
-      return next;
-    });
-  }
+  const { cart, cartItems, cartCount, cartTotal, changeQuantity } = useCart();
 
   function sendOrder() {
     // Replace this with the vendor's WhatsApp number in international format, without + or spaces.
@@ -59,6 +50,7 @@ function HomePage() {
         <nav className={mobileMenuOpen ? "main-nav open" : "main-nav"}>
           <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="/menu" onClick={() => setMobileMenuOpen(false)}>Our menu</a>
+          <a href="/catering" onClick={() => setMobileMenuOpen(false)}>Catering</a>
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>Our story</a>
           <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
         </nav>
@@ -136,6 +128,13 @@ function HomePage() {
 }
 
 
+function AppContent() {
+  const path = window.location.pathname.replace(/\/$/, "");
+  if (path === "/menu") return <MenuPage />;
+  if (path === "/catering") return <CateringPage />;
+  return <HomePage />;
+}
+
 export default function App() {
-  return window.location.pathname.replace(/\\/$/, "") === "/menu" ? <MenuPage /> : <HomePage />;
+  return <CartProvider><AppContent /></CartProvider>;
 }
